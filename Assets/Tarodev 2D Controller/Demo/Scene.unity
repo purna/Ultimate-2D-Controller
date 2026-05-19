@@ -426,6 +426,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Controller
       objectReference: {fileID: 0}
+    - target: {fileID: 8947757572285325700, guid: 88097b566ad1fdd489d7ee77465b57aa, type: 3}
+      propertyPath: deathSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 4a99b8ff242094cbda90340a278eee19, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
