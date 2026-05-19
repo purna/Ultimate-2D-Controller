@@ -3,12 +3,18 @@ using UnityEngine;
 public class PlayerRespawn : MonoBehaviour
 {
     [SerializeField] private AudioClip deathSound;
-    [SerializeField] private GameObject deathParticles;
+    [SerializeField] private ParticleSystem deathParticles;
+
+    private bool isDead = false;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (isDead) return;
+
         if (collision.gameObject.CompareTag("Hazard"))
         {
+            isDead = true;
+
             PlayDeathEffects();
 
             GameManager.Instance.RespawnPlayer(gameObject);
@@ -17,13 +23,7 @@ public class PlayerRespawn : MonoBehaviour
 
     private void PlayDeathEffects()
     {
-        // particles (safe)
-        if (deathParticles != null)
-        {
-            Instantiate(deathParticles, transform.position, Quaternion.identity);
-        }
-
-        // sound (FIXED)
+        // SOUND
         if (deathSound != null)
         {
             GameObject tempAudio = new GameObject("DeathSound");
@@ -34,6 +34,12 @@ public class PlayerRespawn : MonoBehaviour
             source.Play();
 
             Destroy(tempAudio, deathSound.length);
+        }
+
+        // PARTICLES (JUST PLAY)
+        if (deathParticles != null)
+        {
+            deathParticles.Play();
         }
     }
 }
