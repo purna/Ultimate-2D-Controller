@@ -3,24 +3,37 @@ using UnityEngine;
 public class PlayerRespawn : MonoBehaviour
 {
     [SerializeField] private AudioClip deathSound;
-    [SerializeField] private float soundVolume = 1f;
+    [SerializeField] private GameObject deathParticles;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Hazard"))
         {
-            PlayDeathSound();
+            PlayDeathEffects();
 
-            GameManager.Instance.RespawnPlayer();
-            Destroy(gameObject);
+            GameManager.Instance.RespawnPlayer(gameObject);
         }
     }
 
-    private void PlayDeathSound()
+    private void PlayDeathEffects()
     {
+        // particles (safe)
+        if (deathParticles != null)
+        {
+            Instantiate(deathParticles, transform.position, Quaternion.identity);
+        }
+
+        // sound (FIXED)
         if (deathSound != null)
         {
-            AudioSource.PlayClipAtPoint(deathSound, transform.position, soundVolume);
+            GameObject tempAudio = new GameObject("DeathSound");
+            AudioSource source = tempAudio.AddComponent<AudioSource>();
+
+            source.clip = deathSound;
+            source.volume = 1f;
+            source.Play();
+
+            Destroy(tempAudio, deathSound.length);
         }
     }
 }

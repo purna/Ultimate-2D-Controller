@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1544650614272011793}
   - component: {fileID: 1544650614272011794}
   - component: {fileID: 8947757572285325700}
+  - component: {fileID: 328728137649287942}
   m_Layer: 6
   m_Name: Player Controller
   m_TagString: Player
@@ -125,6 +126,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38c82144f1e424769be4bbd98840e883, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  deathSound: {fileID: 8300000, guid: 4a99b8ff242094cbda90340a278eee19, type: 3}
+  deathParticles: {fileID: 1626347538579269605, guid: f2a5e7351917643e38546523562fb4df, type: 3}
+--- !u!114 &328728137649287942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544650614272011804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd22a1d1bf9844fc292df5a73e52d36c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
 --- !u!1 &2969068311587289281
 GameObject:
   m_ObjectHideFlags: 0

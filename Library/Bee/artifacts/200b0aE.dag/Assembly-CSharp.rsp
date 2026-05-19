@@ -409,6 +409,7 @@
 "Assets/Tarodev 2D Controller/_Scripts/NextSceneAfterDelay.cs"
 "Assets/Tarodev 2D Controller/_Scripts/PlayerAnimator.cs"
 "Assets/Tarodev 2D Controller/_Scripts/PlayerController.cs"
+"Assets/Tarodev 2D Controller/_Scripts/PlayerMovement.cs"
 "Assets/Tarodev 2D Controller/_Scripts/PlayerRespawn.cs"
 "Assets/Tarodev 2D Controller/_Scripts/ScriptableStats.cs"
 -langversion:9.0
