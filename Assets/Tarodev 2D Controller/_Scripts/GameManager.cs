@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private Transform respawnPoint;
     [SerializeField] private float respawnDelay = 2f;
+    [SerializeField] private ResetCinemachineTargetGroup cameraTargetReset;
+    [SerializeField] private List<TriggerMoveSprite> itemsToReset;
 
     private bool isRespawning = false;
 
@@ -19,7 +22,6 @@ public class GameManager : MonoBehaviour
     public void RespawnPlayer(GameObject player)
     {
         if (isRespawning) return;
-
         StartCoroutine(RespawnCoroutine(player));
     }
 
@@ -28,10 +30,7 @@ public class GameManager : MonoBehaviour
         isRespawning = true;
 
         PlayerMovement movement = player.GetComponent<PlayerMovement>();
-        if (movement != null)
-        {
-            movement.enabled = false;
-        }
+        if (movement != null) movement.enabled = false;
 
         Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
         if (rb != null)
@@ -42,10 +41,21 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(respawnDelay);
 
-        Instantiate(playerPrefab, respawnPoint.position, Quaternion.identity);
+        GameObject newPlayer = Instantiate(playerPrefab, respawnPoint.position, Quaternion.identity);
+        cameraTargetReset.OnPlayerRespawned(newPlayer.transform);
+        ResetItems();
 
         Destroy(player);
 
         isRespawning = false;
+    }
+
+    private void ResetItems()
+    {
+        foreach (TriggerMoveSprite item in itemsToReset)
+        {
+            if (item != null)
+                item.ResetObject();
+        }
     }
 }
