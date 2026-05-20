@@ -1855,12 +1855,7 @@ MonoBehaviour:
   respawnPoint: {fileID: 1766474245}
   respawnDelay: 2
   cameraTargetReset: {fileID: 532730331}
-  itemsToReset:
-  - {fileID: 924774607}
-  - {fileID: 1405675685}
-  - {fileID: 1587803723}
-  - {fileID: 1810664983}
-  - {fileID: 2119864590}
+  itemsToReset: []
 --- !u!4 &1961326755
 Transform:
   m_ObjectHideFlags: 0

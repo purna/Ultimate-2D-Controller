@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,18 +11,31 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform respawnPoint;
     [SerializeField] private float respawnDelay = 2f;
     [SerializeField] private ResetCinemachineTargetGroup cameraTargetReset;
-    [SerializeField] private List<TriggerMoveSprite> itemsToReset;
+
+    [SerializeField] private List<TriggerMoveSprite> itemsToReset = new List<TriggerMoveSprite>();
 
     private bool isRespawning = false;
 
-    private void Awake()
-    {
-        Instance = this;
-    }
+private void Awake()
+{
+    Instance = this;
+
+    // Clear existing entries
+    itemsToReset.Clear();
+
+    // Find all TriggerMoveSprite objects in the scene
+    TriggerMoveSprite[] foundItems = FindObjectsByType<TriggerMoveSprite>(
+        FindObjectsSortMode.None
+    );
+
+    // Add them to the serialized list
+    itemsToReset.AddRange(foundItems);
+}
 
     public void RespawnPlayer(GameObject player)
     {
         if (isRespawning) return;
+
         StartCoroutine(RespawnCoroutine(player));
     }
 
@@ -30,7 +44,8 @@ public class GameManager : MonoBehaviour
         isRespawning = true;
 
         PlayerMovement movement = player.GetComponent<PlayerMovement>();
-        if (movement != null) movement.enabled = false;
+        if (movement != null)
+            movement.enabled = false;
 
         Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
         if (rb != null)
@@ -41,8 +56,14 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(respawnDelay);
 
-        GameObject newPlayer = Instantiate(playerPrefab, respawnPoint.position, Quaternion.identity);
+        GameObject newPlayer = Instantiate(
+            playerPrefab,
+            respawnPoint.position,
+            Quaternion.identity
+        );
+
         cameraTargetReset.OnPlayerRespawned(newPlayer.transform);
+
         ResetItems();
 
         Destroy(player);
@@ -55,7 +76,9 @@ public class GameManager : MonoBehaviour
         foreach (TriggerMoveSprite item in itemsToReset)
         {
             if (item != null)
+            {
                 item.ResetObject();
+            }
         }
     }
 }
